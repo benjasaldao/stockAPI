@@ -1,0 +1,22 @@
+{
+  "name": "stock-app",
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.js"
+    }
+  ],
+  "env": {
+    "DB_USER": "@db_user_stock-app",
+    "DB_PASSWORD": "@db_password_stock-app",
+    "DB_HOST": "@db_host_stock-app",
+    "DB_NAME": "@db_name_stock-app"
+  }
+}

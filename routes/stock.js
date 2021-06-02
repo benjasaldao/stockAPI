@@ -1,5 +1,12 @@
 const express = require('express');
 const StockService = require('../services/stock.js');
+const {
+    productIdSchema,
+    createProductSchema,
+    updateProductSchema
+} = require('../utils/schemas/productSchemas.js');
+
+const validationHandler = require('../utils/middleware/validationHandler.js');
 
 function stockApi(app) {
     const router = express.Router();
@@ -22,7 +29,7 @@ function stockApi(app) {
             next(err);
         }
     });
-    router.get("/:productId", async function(req, res, next) {
+    router.get("/:productId", validationHandler({productId: productIdSchema}, 'params'), async function(req, res, next) {
         const {productId} = req.params;
 
         try {
@@ -37,7 +44,7 @@ function stockApi(app) {
             next(err);
         }
     });
-    router.post("/", async function(req, res, next) {
+    router.post("/", validationHandler(createProductSchema), async function(req, res, next) {
         const {body: product} = req;
         try {
             const createdProductId = await stockService.createProduct({product})
@@ -51,7 +58,7 @@ function stockApi(app) {
             next(err);
         }
     });
-    router.put("/:productId", async function(req, res, next) {
+    router.put("/:productId", validationHandler({productId: productIdSchema}, 'params'), validationHandler(updateProductSchema), async function(req, res, next) {
         const {productId} = req.params;
         const {body: product} = req;
         try {
@@ -69,7 +76,7 @@ function stockApi(app) {
             next(err);
         }
     });
-    router.delete("/:productId", async function(req, res, next) {
+    router.delete("/:productId", validationHandler({productId: productIdSchema}, 'params'), async function(req, res, next) {
         const {productId} = req.params;
         try {
             const deletedProductId = await stockService.deleteProduct({productId});
