@@ -29,7 +29,7 @@ function stockApi(app) {
             next(err);
         }
     });
-    router.get("/:productId", validationHandler({productId: productIdSchema}, 'params'), async function(req, res, next) {
+    router.get("/:productId", validationHandler(productIdSchema, 'params'), async function(req, res, next) {
         const {productId} = req.params;
 
         try {
@@ -58,7 +58,7 @@ function stockApi(app) {
             next(err);
         }
     });
-    router.put("/:productId", validationHandler({productId: productIdSchema}, 'params'), validationHandler(updateProductSchema), async function(req, res, next) {
+    router.put("/:productId", validationHandler(productIdSchema, 'params'), validationHandler(updateProductSchema), async function(req, res, next) {
         const {productId} = req.params;
         const {body: product} = req;
         try {
