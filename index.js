@@ -14,14 +14,14 @@ const {
 
 const notFoundHandler = require('./utils/middleware/notFoundHandler.js');
 
+// Cors
+app.use(cors());
+
 // Body parser
 app.use(express.json());
 
 // Routes
 stockApi(app);
-
-// Cors
-app.use(cors());
 
 // Catch 404
 app.use(notFoundHandler);
