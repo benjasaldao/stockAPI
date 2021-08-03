@@ -7,6 +7,7 @@ const {
 } = require('../utils/schemas/productSchemas.js');
 
 const validationHandler = require('../utils/middleware/validationHandler.js');
+const { func } = require('joi');
 
 function stockApi(app) {
     const router = express.Router();
@@ -27,6 +28,27 @@ function stockApi(app) {
         }
         catch (err) {
             next(err);
+        }
+    });
+    router.get("/password", async function(req, res, next) {
+        const {password} = req.body;
+        try {
+            const savedPassword = await stockService.getSavedPassword({password});
+
+            if(savedPassword[0].password === password) {
+                res.status(200).json({
+                    data: true,
+                    message: "password is correct"
+                })
+            } else {
+                res.status(200).json({
+                    data: false,
+                    message: "incorrect password"
+                })
+            }            
+        }
+        catch (err) {
+            next(err)
         }
     });
     router.get("/:productId", validationHandler(productIdSchema, 'params'), async function(req, res, next) {
@@ -58,6 +80,20 @@ function stockApi(app) {
             next(err);
         }
     });
+    router.post("/password", async function(req, res, next) {
+        const password = req.body;
+        try {
+            const newPassword = await stockService.createPassword({password});
+
+            res.status(201).json({
+                message: 'new password created'
+            })
+        }
+        catch(err) {
+            next(err);
+        }
+
+    })
     router.put("/:productId", validationHandler(productIdSchema, 'params'), validationHandler(updateProductSchema), async function(req, res, next) {
         const {productId} = req.params;
         const {body: product} = req;

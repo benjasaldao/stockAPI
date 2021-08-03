@@ -1,4 +1,3 @@
-const { query } = require('express');
 const MongoLib = require('../lib/mongo');
 
 
@@ -28,6 +27,14 @@ class StockServices {
     async deleteProduct({productId}) {
         const deletedProductId = await this.mongoDB.delete(this.collection, productId);
         return deletedProductId;
+    }
+    async getSavedPassword({password}) {
+        const savedPassword = await this.mongoDB.getAll("password");
+        return savedPassword;
+    }
+    async createPassword({password}) {
+        const createdPassword = await this.mongoDB.create("password", password);
+        return createdPassword;
     }
 }
 
