@@ -30,7 +30,7 @@ function stockApi(app) {
             next(err);
         }
     });
-    router.get("/password", async function(req, res, next) {
+    router.post("/password", async function(req, res, next) {
         const {password} = req.body;
         try {
             const savedPassword = await stockService.getSavedPassword({password});
