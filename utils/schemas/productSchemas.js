@@ -5,14 +5,14 @@ const createProductSchema = joi.object({
     name: joi.string().min(3).max(50).required(),
     stock: joi.object().required(),
     description: joi.string().min(1).max(250).required(),
-    tags: joi.array()
+    tags: joi.array().required()
 });
 
 const updateProductSchema = joi.object({
     name: joi.string().min(3).max(50),
     stock: joi.object(),
     description: joi.string().min(1).max(250).required(),
-    tags: joi.array()
+    tags: joi.string()
 });
 
 module.exports = {

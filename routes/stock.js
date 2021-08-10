@@ -7,7 +7,6 @@ const {
 } = require('../utils/schemas/productSchemas.js');
 
 const validationHandler = require('../utils/middleware/validationHandler.js');
-const { func } = require('joi');
 
 function stockApi(app) {
     const router = express.Router();
@@ -30,12 +29,13 @@ function stockApi(app) {
             next(err);
         }
     });
-    router.post("/password", async function(req, res, next) {
+    router.put("/password", async function(req, res, next) {
         const {password} = req.body;
+        console.log(req.body)
         try {
             const savedPassword = await stockService.getSavedPassword({password});
 
-            if(savedPassword[0].password === password) {
+            if(savedPassword[0].password == password) {
                 res.status(200).json({
                     data: true,
                     message: "password is correct"
